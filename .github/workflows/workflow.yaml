@@ -20,16 +20,16 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: df -h
-      - name: build nativelink
-        run: |
-          nix build --out-link $HOME/nativelink github:TraceMachina/nativelink/v0.5.1
       - name: start nativelink
         uses: JarvusInnovations/background-action@v1
         with:
           run: |
-            $HOME/nativelink/bin/nativelink nativelink_config.json &
+            docker run --detach \
+              -v $(pwd)/nativelink_config.json:/config \
+              -p 50051:50051 \
+              ghcr.io/tracemachina/nativelink:v0.5.1 config
           wait-for: 30s
           wait-on: |
-            tcp:127.0.0.1:50061
+            tcp:127.0.0.1:50051
       - name: Build
         run: $HOME/buck build ...
