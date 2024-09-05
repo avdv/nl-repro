@@ -27,7 +27,7 @@ jobs:
             docker run \
               -v $(pwd)/nativelink_config.json:/config \
               -p 50051:50051 \
-              ghcr.io/tracemachina/nativelink:v0.5.1 config &
+              ghcr.io/tracemachina/nativelink:v0.5.3 config &
           wait-for: 30s
           wait-on: |
             tcp:127.0.0.1:50051
