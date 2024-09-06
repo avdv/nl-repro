@@ -24,10 +24,14 @@ jobs:
         uses: JarvusInnovations/background-action@v1
         with:
           run: |
-            docker run \
-              -v $(pwd)/nativelink_config.json:/config \
-              -p 50051:50051 \
-              ghcr.io/tracemachina/nativelink:v0.5.3 config &
+            IMAGE=ghcr.io/tracemachina/nativelink:v0.5.3
+            docker pull $IMAGE
+            exe=$( docker inspect --type=image --format='{{json .Config.Entrypoint}}' $IMAGE | jq -r '.[0]' )
+            docker create --name nl  $IMAGE
+            docker cp nl:$exe $HOME/nativelink
+            docker rm nl
+            $HOME/nativelink --version
+            $HOME/nativelink nativelink_config.json &
           wait-for: 30s
           wait-on: |
             tcp:127.0.0.1:50051
