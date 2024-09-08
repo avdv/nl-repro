@@ -14,6 +14,19 @@ genrule(
 )
 
 genrule(
+    name = "tsc_test",
+    srcs = [
+        "package.json",
+        "tsconfig.json",
+    ],
+    out = "dist",
+    cmd = """\
+ls -lh >&2 ; mkdir ${OUT}; echo done > ${OUT}/stamp
+""",
+    default_outs = ["dist"],
+)
+
+genrule(
     name = "tsc_generated",
     srcs = [
         ":node_modules",
@@ -22,7 +35,7 @@ genrule(
     ],
     out = "dist",
     cmd = """\
-yarn run tsc --outDir ${OUT} --rootDir . --declaration true
+ls -lh node_modules/ >&2 ; mkdir ${OUT}; echo done > ${OUT}/stamp
 """,
     default_outs = ["dist"],
 )

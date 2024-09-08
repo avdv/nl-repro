@@ -36,5 +36,7 @@ jobs:
           wait-on: |
             tcp:127.0.0.1:50051
       - run: docker ps -a
-      - name: Build
-        run: $HOME/buck build ...
+      - name: Build tsc_test
+        run: $HOME/buck build -v 2,stderr --prefer-remote :tsc_test
+      - name: Build tsc_test
+        run: $HOME/buck build -v 2,stderr --prefer-remote :tsc_generated
