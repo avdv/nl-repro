@@ -28,9 +28,15 @@ jobs:
         with:
           run: |
             ulimit -n 65000
-            $HOME/nativelink/bin/nativelink nativelink_config.json &
+            export RUST_LOG=info
+            $HOME/nativelink/bin/nativelink nativelink_config.json &> nl.log &
           wait-for: 30s
           wait-on: |
             tcp:127.0.0.1:50061
       - name: Build
         run: ulimit -n 65000; $HOME/buck build -v 2,stderr --prefer-remote :tsc_generated
+      - name: Upload log
+        uses: actions/upload-artifact@v4
+        with:
+          name: nl.log
+          path: nl.log
