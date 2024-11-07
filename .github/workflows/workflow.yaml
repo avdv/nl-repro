@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
       - name: install buck
         run: |
-          curl -Lo $HOME/buck.zst https://github.com/facebook/buck2/releases/download/2024-08-15/buck2-aarch64-apple-darwin.zst
+          curl -Lo $HOME/buck.zst https://github.com/facebook/buck2/releases/download/2024-11-01/buck2-aarch64-apple-darwin.zst
           zstd --decompress $HOME/buck.zst
           chmod +x $HOME/buck
 
